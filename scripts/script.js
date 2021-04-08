@@ -1,92 +1,80 @@
-// Create a global object where properties = selections and values = "weaker" selections
+// Create global object where properties = selections and values = "weaker" selections
 const SELECTION_RIVALS = {
-    'rock': 'scissors',
-    'scissors': 'paper',
-    'paper': 'rock'
+    'Rock': 'Scissors',
+    'Scissors': 'Paper',
+    'Paper': 'Rock'
 }
 
+// Initialize global variables
+let playerScore = 0;
+let computerScore = 0;
+let roundResult = document.querySelector('#round-result');
+let score = document.querySelector('#score');
+let winner = document.querySelector('#winner');
+let newGameBtn = document.querySelector('#new-game-btn');
 
-// Function that randomly returns "Rock", "Paper" or "Scissors"
+
+// Function simulating random computer selection
 function computerPlay() {
-
-    // Generate random integer in range (0-2)
     let randomNum = Math.floor(Math.random() * 3);
-
-    // Associate with each generated number one of three strings and return it
     switch (randomNum) {
         case 0:
-            return "rock";
+            return "Rock";
         case 1:
-            return "paper";
+            return "Paper";
         case 2:
-            return "scissors";
+            return "Scissors";
     }
 }
 
 
-// Function that plays a single round
-function playRound(playerSelection, computerSelection) {
+// Function playing single round and logging the results
+function playRound(event) {
+    if (playerScore >= 5 || computerScore >= 5) return;
 
-    // Convert user's selection to lowercase
-    playerSelection = playerSelection.toLowerCase();
+    let playerSelection = event.target.textContent;
+    let computerSelection = computerPlay();
 
-    // Compare selections and return the result
+    if (!(playerSelection in SELECTION_RIVALS)) {
+        roundResult.textContent = `Please select valid input!`;
+        return
+    }
     if (playerSelection === computerSelection) {
-        console.log(`You have a tie! ${playerSelection} vs ${computerSelection}`);
-        return 0;
+        roundResult.textContent = `You have a tie! ${playerSelection} vs ${computerSelection}.`;
     }
-    if (computerSelection === SELECTION_RIVALS[playerSelection]) {
-        console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-        return 1;
-    }
-    console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-    return -1;
-}
-
-
-// Function that stages 5-round game
-function game() {
-
-    console.log('Let\'s start the game!');
-    let playerScore = 0;
-    let computerScore = 0;
-
-    // Play 5 rounds:
-    for (let i = 1; i <= 5; i++) {
-        console.log(`Round ${i}`)
-
-        // Prompt user for selection and validate input
-        let playerSelection;
-        do {
-            playerSelection = prompt('What\'s your selection?').toLowerCase();
-        } 
-        while (!(playerSelection in SELECTION_RIVALS));
-
-        // Computer makes a selection
-        let computerSelection = computerPlay();
-
-        // Play single round (playRound())
-        let result = playRound(playerSelection, computerSelection);
-
-        // Log result and current score
-        if (result > 0) {
-            playerScore++;
-        }
-        else if (result < 0) {
-            computerScore++;
-        }
-        console.log(`SCORE: Player ${playerScore} - ${computerScore} Computer`);
-    }
-
-    // Log the winner based on score
-    if (playerScore > computerScore) {
-        console.log('Congratulations! You won!');
-    }
-    else if (playerScore < computerScore) {
-        console.log('It\'s not your lucky day... You lost!');
+    else if (computerSelection === SELECTION_RIVALS[playerSelection]) {
+        playerScore++;
+        roundResult.textContent = `You win! ${playerSelection} beats ${computerSelection}.`;
     }
     else {
-        console.log('It was a fair game. A tie!');
+        computerScore++;
+        roundResult.textContent = `You lose! ${playerSelection} loses to ${computerSelection}.`;
     }
-    return;
+    score.textContent = `Player ${playerScore} : ${computerScore} Computer`;
+    
+    if (playerScore >= 5) {
+        winner.textContent = `Congratulations! You won the game!`;
+        newGameBtn.classList.remove('hidden');
+    }
+    if (computerScore >= 5) {
+        winner.textContent = `Game over! Computer kicked your ass!`;
+        newGameBtn.classList.remove('hidden');
+    }
 }
+
+
+// Function resetting game parameters before new game
+function resetGame() {
+    playerScore = 0;
+    computerScore = 0;
+    roundResult.textContent = `Let's play! Who gets 5 points first wins!`;
+    score.textContent = `Player 0 : 0 Computer`;
+    winner.textContent = '';
+    this.classList.add('hidden');
+}
+
+
+let buttons = document.querySelectorAll('.selection');
+buttons.forEach(button => button.addEventListener('click', playRound));
+
+newGameBtn.addEventListener('click', resetGame);

@@ -1,0 +1,26 @@
+body {
+    text-align: center;
+}
+h1 {
+    font-size: 2.5rem;
+    text-decoration: underline;
+}
+button {
+    padding: 0.3rem 1.5rem;
+    margin: 1rem 1.2rem;
+    background-color: blue;
+    color: white;
+    transition: 0.2s;
+}
+button:hover {
+    background-color: red;
+  }
+#winner {
+    font-size: 1.5rem;
+    text-decoration: underline;
+    color: red;
+    text-shadow: 2px 2px 1px gold;
+}
+.hidden {
+    display: none;
+}
