@@ -6,7 +6,8 @@ h1 {
     text-decoration: underline;
 }
 button {
-    padding: 0.3rem 1.5rem;
+    width: 120px;
+    padding: 0.3rem 0;
     margin: 1rem 1.2rem;
     background-color: blue;
     color: white;
@@ -16,7 +17,7 @@ button:hover {
     background-color: red;
   }
 #winner {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     text-decoration: underline;
     color: red;
     text-shadow: 2px 2px 1px gold;
