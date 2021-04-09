@@ -6,4 +6,4 @@ The game is played against computer opponent and has a simple graphical interfac
 
 The game was created with HTML, CSS and JS.
 
-[Live Demo](https://github.com/Aleafan/rock-paper-scissors/)
+[Live Demo](https://aleafan.github.io/rock-paper-scissors/)
